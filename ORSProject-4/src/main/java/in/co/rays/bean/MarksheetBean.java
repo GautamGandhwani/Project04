@@ -1,17 +1,17 @@
 package in.co.rays.bean;
 
-public class MarksheetBean extends BaseBean{
+public class MarksheetBean extends BaseBean {
 
 	private String rollNo;
-	
+
 	private long studentId;
-	
+
 	private String name;
-	
-	private int physics ;
-	
+
+	private int physics;
+
 	private int chemistry;
-	
+
 	private int maths;
 
 	public String getRollNo() {
@@ -60,5 +60,15 @@ public class MarksheetBean extends BaseBean{
 
 	public void setMaths(int maths) {
 		this.maths = maths;
+	}
+
+	@Override
+	public String getKey() {
+		return id + "";
+	}
+
+	@Override
+	public String getValue() {
+		return name;
 	}
 }

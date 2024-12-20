@@ -32,25 +32,25 @@ public class FacultyModel {
 	}
 
 	public void add(FacultyBean bean) throws Exception {
-		
+
 		CollegeModel collegeModel = new CollegeModel();
 		CollegeBean collegeBean = collegeModel.findByPk(bean.getCollegeId());
 		bean.setCollegeName(collegeBean.getName());
-		
+
 		CourseModel courseModel = new CourseModel();
 		CourseBean courseBean = courseModel.findByPk(bean.getCollegeId());
 		bean.setCourseName(courseBean.getName());
-		
+
 		SubjectModel subjectModel = new SubjectModel();
 		SubjectBean subjectBean = subjectModel.findByPK(bean.getSubjectId());
 		bean.setCollegeName(collegeBean.getName());
-		
+
 		FacultyBean existBean = findByEmail(bean.getEmail());
-		
+
 		if (existBean != null) {
 			throw new Exception("Email already exist");
 		}
-		
+
 		Connection conn = JDBCDataSource.getConnection();
 
 		PreparedStatement pstmt = conn
@@ -126,11 +126,26 @@ public class FacultyModel {
 		System.out.println("Data Deleted = " + i);
 	}
 
-	public List search(FacultyBean bean) throws Exception {
+	public List search(FacultyBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_faculty");
+		StringBuffer sql = new StringBuffer("select * from st_faculty where 1=1");
+
+		if (bean != null) {
+
+			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
+				sql.append(" and first_name like '" + bean.getFirstName() + "'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println("SQl = " + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
 		List list = new ArrayList();
 
@@ -235,6 +250,9 @@ public class FacultyModel {
 		}
 		JDBCDataSource.closeConnection(conn);
 		return bean;
+	}
 
+	public List list() throws Exception {
+		return search(null, 0, 0);
 	}
 }

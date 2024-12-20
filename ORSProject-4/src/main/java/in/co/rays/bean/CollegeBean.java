@@ -1,15 +1,15 @@
 package in.co.rays.bean;
 
-public class CollegeBean extends BaseBean{
+public class CollegeBean extends BaseBean {
 
 	private String name;
-	
+
 	private String address;
-	
+
 	private String state;
-	
+
 	private String city;
-	
+
 	private String phoneNo;
 
 	public String getName() {
@@ -50,5 +50,15 @@ public class CollegeBean extends BaseBean{
 
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
+	}
+
+	@Override
+	public String getKey() {
+		return id + "";
+	}
+
+	@Override
+	public String getValue() {
+		return name;
 	}
 }

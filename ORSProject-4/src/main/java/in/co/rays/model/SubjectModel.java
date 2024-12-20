@@ -12,44 +12,44 @@ import in.co.rays.util.JDBCDataSource;
 
 public class SubjectModel {
 
-public int  nextPK() throws Exception {
-		
-		int PK=0;
-		
-		Connection conn =JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt=conn.prepareStatement("select max(id) from st_subject");
-		
-		ResultSet rs=pstmt.executeQuery();
-		
+	public int nextPK() throws Exception {
+
+		int PK = 0;
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_subject");
+
+		ResultSet rs = pstmt.executeQuery();
+
 		while (rs.next()) {
-			
-			PK=rs.getInt(1);
-			
+
+			PK = rs.getInt(1);
+
 		}
 		JDBCDataSource.closeConnection(conn);
-		return PK+1;
+		return PK + 1;
 	}
 
 	public void add(SubjectBean bean) throws Exception {
-		
-		SubjectBean existbean=findByName(bean.getName());
-		
+
+		SubjectBean existbean = findByName(bean.getName());
+
 		if (existbean != null) {
-			
+
 			throw new Exception("Name Allready Exist");
 		}
-		
-		CourseModel model=new CourseModel();
-		
-		CourseBean coursebean=model.findByPk(bean.getId());
-		
+
+		CourseModel model = new CourseModel();
+
+		CourseBean coursebean = model.findByPk(bean.getId());
+
 		bean.setCourseName(coursebean.getName());
-		
-		Connection conn=JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt=conn.prepareStatement("insert into st_subject values(?,?,?,?,?,?,?,?,?)");
-	
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("insert into st_subject values(?,?,?,?,?,?,?,?,?)");
+
 		pstmt.setLong(1, nextPK());
 		pstmt.setString(2, bean.getName());
 		pstmt.setLong(3, bean.getCourseId());
@@ -63,25 +63,25 @@ public int  nextPK() throws Exception {
 		int i = pstmt.executeUpdate();
 
 		JDBCDataSource.closeConnection(conn);
-		
+
 		System.out.println("Data Add=" + i);
 	}
+
 	public void update(SubjectBean bean) throws Exception {
-		
-		CourseModel model=new CourseModel();
-		
-		CourseBean coursebean=model.findByPk(bean.getId());
-		
+
+		CourseModel model = new CourseModel();
+
+		CourseBean coursebean = model.findByPk(bean.getId());
+
 		bean.setCourseName(coursebean.getName());
-		
-		
-		SubjectBean existbean=findByName(bean.getName());
-		
+
+		SubjectBean existbean = findByName(bean.getName());
+
 		if (existbean != null && bean.getId() != existbean.getId()) {
-			
+
 			throw new Exception("User Not Allow to access");
 		}
-		
+
 		Connection conn = JDBCDataSource.getConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement(
@@ -103,30 +103,48 @@ public int  nextPK() throws Exception {
 
 		System.out.println("Data Updated = " + i);
 	}
+
 	public void delete(long id) throws Exception {
-		
-		Connection conn=JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt=conn.prepareStatement("delete from st_subject where id=?");
-		
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("delete from st_subject where id=?");
+
 		pstmt.setLong(1, id);
-		
-		int i=pstmt.executeUpdate();
-		
+
+		int i = pstmt.executeUpdate();
+
 		System.out.println("Data Delete=" + i);
 	}
-	public List search(SubjectBean bean) throws Exception {
-		
-		Connection conn=JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt=conn.prepareStatement("select * from st_subject");
-		
-		ResultSet rs=pstmt.executeQuery();
-		
+
+	public List search(SubjectBean bean, int pageNo, int pageSize) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		StringBuffer sql = new StringBuffer("select * from st_subject where 1=1");
+
+		if (bean != null) {
+
+			if (bean.getName() != null && bean.getName().length() > 0) {
+				sql.append(" and name like '" + bean.getName() + "'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println("SQL = " + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
+		ResultSet rs = pstmt.executeQuery();
+
 		List list = new ArrayList();
 
 		while (rs.next()) {
 			bean = new SubjectBean();
+
 			bean.setId(rs.getLong(1));
 			bean.setName(rs.getString(2));
 			bean.setCourseId(rs.getLong(3));
@@ -136,30 +154,31 @@ public int  nextPK() throws Exception {
 			bean.setModifiedBy(rs.getString(7));
 			bean.setCreatedDatetime(rs.getTimestamp(8));
 			bean.setModifiedDatetime(rs.getTimestamp(9));
-			
+
 			list.add(bean);
-	}
+		}
 		JDBCDataSource.closeConnection(conn);
 		return list;
-		
-}
+
+	}
+
 	public SubjectBean findByPK(long id) throws Exception {
-		
-		Connection conn=JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt=conn.prepareStatement("select * from st_subject where id=?");
-		
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_subject where id=?");
+
 		pstmt.setLong(1, id);
-		
-		ResultSet rs=pstmt.executeQuery();
-		
-		SubjectBean bean=null;
-		
+
+		ResultSet rs = pstmt.executeQuery();
+
+		SubjectBean bean = null;
+
 		while (rs.next()) {
-			
-		 bean=new SubjectBean();
-		 
-		 	bean.setId(rs.getLong(1));
+
+			bean = new SubjectBean();
+
+			bean.setId(rs.getLong(1));
 			bean.setName(rs.getString(2));
 			bean.setCourseId(rs.getLong(3));
 			bean.setCourseName(rs.getString(4));
@@ -168,29 +187,30 @@ public int  nextPK() throws Exception {
 			bean.setModifiedBy(rs.getString(7));
 			bean.setCreatedDatetime(rs.getTimestamp(8));
 			bean.setModifiedDatetime(rs.getTimestamp(9));
-			
+
 		}
 		JDBCDataSource.closeConnection(conn);
 		return bean;
-		
+
 	}
+
 	public SubjectBean findByName(String name) throws Exception {
-		
-		Connection conn=JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt=conn.prepareStatement("select * from st_subject where name=?");
-		
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_subject where name=?");
+
 		pstmt.setString(1, name);
-		
-		ResultSet rs=pstmt.executeQuery();
-		
-		SubjectBean bean=null;
-		
+
+		ResultSet rs = pstmt.executeQuery();
+
+		SubjectBean bean = null;
+
 		while (rs.next()) {
-			
-		 bean=new SubjectBean();
-		 
-		 	bean.setId(rs.getLong(1));
+
+			bean = new SubjectBean();
+
+			bean.setId(rs.getLong(1));
 			bean.setName(rs.getString(2));
 			bean.setCourseId(rs.getLong(3));
 			bean.setCourseName(rs.getString(4));
@@ -199,9 +219,12 @@ public int  nextPK() throws Exception {
 			bean.setModifiedBy(rs.getString(7));
 			bean.setCreatedDatetime(rs.getTimestamp(8));
 			bean.setModifiedDatetime(rs.getTimestamp(9));
-	}
+		}
 		JDBCDataSource.closeConnection(conn);
 		return null;
-}
-	
+	}
+
+	public List list() throws Exception {
+		return search(null, 0, 0);
+	}
 }

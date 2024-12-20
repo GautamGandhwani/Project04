@@ -11,7 +11,7 @@ import in.co.rays.bean.CollegeBean;
 import in.co.rays.util.JDBCDataSource;
 
 public class CollegeModel {
-	
+
 	public int nextpk() throws Exception {
 
 		int pk = 0;
@@ -29,7 +29,6 @@ public class CollegeModel {
 		return pk + 1;
 
 	}
-
 
 	public void add(CollegeBean bean) throws Exception {
 
@@ -92,19 +91,34 @@ public class CollegeModel {
 		System.out.println("Data Deleted = " + i);
 	}
 
-	public List search(CollegeBean bean) throws Exception {
-		
+	public List search(CollegeBean bean, int pageNo, int pageSize) throws Exception {
+
 		Connection conn = JDBCDataSource.getConnection();
-		
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_college ");
-		
+
+		StringBuffer sql = new StringBuffer("select * from st_college where 1=1");
+
+		if (bean != null) {
+
+			if (bean.getName() != null && bean.getName().length() > 0) {
+				sql.append(" and name like '" + bean.getName() + "'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println("SQL = " + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
 		ResultSet rs = pstmt.executeQuery();
-		
+
 		List list = new ArrayList();
-		
+
 		while (rs.next()) {
 			bean = new CollegeBean();
-			
+
 			bean.setId(rs.getLong(1));
 			bean.setName(rs.getString(2));
 			bean.setAddress(rs.getString(3));
@@ -115,12 +129,12 @@ public class CollegeModel {
 			bean.setModifiedBy(rs.getString(8));
 			bean.setCreatedDatetime(rs.getTimestamp(9));
 			bean.setModifiedDatetime(rs.getTimestamp(10));
-			
-			list.add(bean);			
+
+			list.add(bean);
 		}
 		return list;
 	}
-	
+
 	public CollegeBean findByPk(long id) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
@@ -151,5 +165,9 @@ public class CollegeModel {
 
 		}
 		return bean;
+	}
+
+	public List list() throws Exception {
+		return search(null, 0, 0);
 	}
 }

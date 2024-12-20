@@ -128,11 +128,26 @@ public class StudentModel {
 		System.out.println("Data Delete=" + i);
 	}
 
-	public List search(StudentBean bean) throws Exception {
+	public List search(StudentBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_student");
+		StringBuffer sql = new StringBuffer("select * from st_student where 1=1");
+
+		if (bean != null) {
+
+			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
+				sql.append(" and first_name like '" + bean.getFirstName() + "'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println("SQL = " + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
 		ResultSet rs = pstmt.executeQuery();
 
@@ -231,4 +246,7 @@ public class StudentModel {
 		return bean;
 	}
 
+	public List list() throws Exception {
+		return search(null, 0, 0);
+	}
 }

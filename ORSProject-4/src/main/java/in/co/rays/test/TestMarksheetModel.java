@@ -14,7 +14,7 @@ public class TestMarksheetModel {
 
 //		testAdd();
 //		testUpdate();
-		testDelete();
+//		testDelete();
 		testSearch();
 //		testFindByPK();
 //		testFindByRollNo();
@@ -80,7 +80,9 @@ public class TestMarksheetModel {
 
 		MarksheetBean bean = new MarksheetBean();
 
-		List list = model.search(bean);
+		bean.setRollNo("ROLL011");
+
+		List list = model.search(bean, 0, 0);
 
 		Iterator it = list.iterator();
 

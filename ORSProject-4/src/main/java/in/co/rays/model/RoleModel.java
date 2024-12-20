@@ -90,11 +90,26 @@ public class RoleModel {
 
 	}
 
-	public List search(RoleBean bean) throws Exception {
+	public List search(RoleBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_role");
+		StringBuffer sql = new StringBuffer("select * from st_role where 1=1");
+
+		if (bean != null) {
+
+			if (bean.getName() != null && bean.getName().length() > 0) {
+				sql.append(" and name like '" + bean.getName() + "'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println("SQl = " + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
 		ResultSet rs = pstmt.executeQuery();
 
@@ -122,16 +137,16 @@ public class RoleModel {
 
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_role where id = ?");
-		
+
 		pstmt.setLong(1, id);
-		
+
 		ResultSet rs = pstmt.executeQuery();
-		
-		RoleBean  bean = null;
-		
+
+		RoleBean bean = null;
+
 		while (rs.next()) {
-			bean= new RoleBean();
-			
+			bean = new RoleBean();
+
 			bean.setId(rs.getLong(1));
 			bean.setName(rs.getString(2));
 			bean.setDescription(rs.getString(3));
@@ -143,4 +158,35 @@ public class RoleModel {
 		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
+
+	public RoleBean findByName(String name) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_role where name = ?");
+
+		pstmt.setString(1, name);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		RoleBean bean = null;
+
+		while (rs.next()) {
+			bean = new RoleBean();
+
+			bean.setId(rs.getLong(1));
+			bean.setName(rs.getString(2));
+			bean.setDescription(rs.getString(3));
+			bean.setCreatedBy(rs.getString(4));
+			bean.setModifiedBy(rs.getString(5));
+			bean.setCreatedDatetime(rs.getTimestamp(6));
+			bean.setModifiedDatetime(rs.getTimestamp(7));
+		}
+		JDBCDataSource.closeConnection(conn);
+		return bean;
+	}
+
+	public List list() throws Exception {
+		return search(null, 0, 0);
+	}
+
 }

@@ -2,7 +2,7 @@ package in.co.rays.bean;
 
 import java.util.Date;
 
-public class TimetableBean extends BaseBean{
+public class TimetableBean extends BaseBean {
 
 	private String semester;
 
@@ -82,5 +82,15 @@ public class TimetableBean extends BaseBean{
 
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
+	}
+
+	@Override
+	public String getKey() {
+		return id + "";
+	}
+
+	@Override
+	public String getValue() {
+		return semester;
 	}
 }

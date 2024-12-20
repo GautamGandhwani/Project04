@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.co.rays.bean.DropdownListBean;
 import in.co.rays.bean.UserBean;
 import in.co.rays.util.JDBCDataSource;
 
@@ -101,11 +102,27 @@ public class UserModel {
 		System.out.println("Data Deleted = " + i);
 	}
 
-	public List search(UserBean bean) throws Exception {
+	public List search(UserBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_user");
+		StringBuffer sql = new StringBuffer("select * from st_user where 1=1");
+
+		if (bean != null) {
+
+			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
+				sql.append(" and first_"
+						+ "name like '" + bean.getFirstName() + "'");
+			}
+		}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println("SQL = " + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
 		ResultSet rs = pstmt.executeQuery();
 
@@ -132,5 +149,9 @@ public class UserModel {
 			list.add(bean);
 		}
 		return list;
-	}	
+	}
+
+	public List list() throws Exception {
+		return search(null, 0, 0);
+	}
 }

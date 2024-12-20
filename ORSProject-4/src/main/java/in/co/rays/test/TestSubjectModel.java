@@ -14,7 +14,7 @@ public class TestSubjectModel {
 
 //		testAdd();
 //		testUpdate();
-		testDelete();
+//		testDelete();
 		testSearch();
 //		testFindByPK();
 //		testFindByName();
@@ -76,7 +76,9 @@ public class TestSubjectModel {
 		SubjectBean bean = new SubjectBean();
 		SubjectModel model = new SubjectModel();
 
-		List list = model.search(bean);
+		bean.setName("Chemistry");
+
+		List list = model.search(bean, 0, 0);
 
 		Iterator it = list.iterator();
 

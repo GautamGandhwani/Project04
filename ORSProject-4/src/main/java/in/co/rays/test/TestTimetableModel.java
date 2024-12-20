@@ -13,7 +13,7 @@ public class TestTimetableModel {
 	public static void main(String[] args) throws Exception {
 
 //		testAdd();
-		testDelete();
+//		testDelete();
 //		testUpdate();
 		testSearch();
 //		testfindByPK();
@@ -22,12 +22,12 @@ public class TestTimetableModel {
 
 	private static void testfindByPK() throws Exception {
 
-		TimetableModel model=new TimetableModel();
-		
+		TimetableModel model = new TimetableModel();
+
 		TimetableBean bean = model.findByPK(1);
-		
+
 		if (bean != null) {
-			
+
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getSemester());
 			System.out.print("\t" + bean.getDescription());
@@ -41,27 +41,28 @@ public class TestTimetableModel {
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
 			System.out.println("\t" + bean.getModifiedDatetime());
-			
-		}else {
+
+		} else {
 			System.out.println("user not found");
 		}
-		
-		
+
 	}
 
 	private static void testSearch() throws Exception {
 
-		TimetableBean bean=new TimetableBean();
-		TimetableModel model=new TimetableModel();
-		
-		List list=model.search(bean);
-		
-		Iterator it=list.iterator();
-		
+		TimetableBean bean = new TimetableBean();
+		TimetableModel model = new TimetableModel();
+
+		bean.setSemester("Semester 2");
+
+		List list = model.search(bean, 0, 0);
+
+		Iterator it = list.iterator();
+
 		while (it.hasNext()) {
-			
+
 			bean = (TimetableBean) it.next();
-			
+
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getSemester());
 			System.out.print("\t" + bean.getDescription());
@@ -76,12 +77,13 @@ public class TestTimetableModel {
 			System.out.print("\t" + bean.getCreatedDatetime());
 			System.out.println("\t" + bean.getModifiedDatetime());
 		}
-		
+
 	}
+
 	private static void testUpdate() throws Exception {
 
-		TimetableBean bean=new TimetableBean();
-		
+		TimetableBean bean = new TimetableBean();
+
 		bean.setId(1);
 		bean.setSemester("test");
 		bean.setDescription("3rd");
@@ -89,14 +91,12 @@ public class TestTimetableModel {
 		bean.setExamTime("10:00AM - 12:00PM");
 		bean.setCourseId(1);
 		bean.setSubjectId(1);
-		
-		TimetableModel model=new TimetableModel();
-		
+
+		TimetableModel model = new TimetableModel();
+
 		model.update(bean);
-		
+
 	}
-
-
 
 	private static void testDelete() throws Exception {
 
@@ -117,13 +117,13 @@ public class TestTimetableModel {
 		bean.setExamTime("11:00AM - 12:00PM");
 		bean.setCourseId(2);
 		bean.setSubjectId(2);
-		mailto:bean.setCreatedBy("admin@gmail.com");
-		mailto:bean.setModifiedBy("admin@gmail.com");
+		bean.setCreatedBy("admin@gmail.com");
+		bean.setModifiedBy("admin@gmail.com");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
 		bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
 
 		TimetableModel model = new TimetableModel();
 		model.add(bean);
 
-	}	
+	}
 }

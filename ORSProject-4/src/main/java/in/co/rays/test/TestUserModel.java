@@ -73,26 +73,28 @@ public class TestUserModel {
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
 
-		List list = model.search(bean);
+		bean.setFirstName("Ritu");
+
+		List list = model.search(bean, 0, 0);
 
 		Iterator it = list.iterator();
 
 		while (it.hasNext()) {
 			bean = (UserBean) it.next();
 
-			System.out.print("\t"+bean.getId());
-			System.out.print("\t"+bean.getFirstName());
-			System.out.print("\t"+bean.getLastName());
-			System.out.print("\t"+bean.getLogin());
-			System.out.print("\t"+bean.getPassword());
-			System.out.print("\t"+bean.getDob());
-			System.out.print("\t"+bean.getMobileNo());
-			System.out.print("\t"+bean.getRoleId());
-			System.out.print("\t"+bean.getGender());
-			System.out.print("\t"+bean.getCreatedBy());
-			System.out.print("\t"+bean.getModifiedBy());
-			System.out.print("\t"+bean.getCreatedDatetime());
-			System.out.println("\t"+bean.getModifiedDatetime());	
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getFirstName());
+			System.out.print("\t" + bean.getLastName());
+			System.out.print("\t" + bean.getLogin());
+			System.out.print("\t" + bean.getPassword());
+			System.out.print("\t" + bean.getDob());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getRoleId());
+			System.out.print("\t" + bean.getGender());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 		}
 	}
 }

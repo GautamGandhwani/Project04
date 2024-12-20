@@ -70,23 +70,25 @@ public class TestCollegeModel {
 		CollegeBean bean = new CollegeBean();
 		CollegeModel model = new CollegeModel();
 
-		List list = model.search(bean);
-		
+		bean.setName("Arya College");
+
+		List list = model.search(bean, 0, 0);
+
 		Iterator it = list.iterator();
-		
+
 		while (it.hasNext()) {
 			bean = (CollegeBean) it.next();
-			
+
 			System.out.print(bean.getId());
-			System.out.print("\t"+bean.getName());
-			System.out.print("\t"+bean.getAddress());
-			System.out.print("\t"+bean.getState());
-			System.out.print("\t"+bean.getCity());
-			System.out.print("\t"+bean.getPhoneNo());
-			System.out.print("\t"+bean.getCreatedBy());
-			System.out.print("\t"+bean.getModifiedBy());
-			System.out.print("\t"+bean.getCreatedDatetime());
-			System.out.println("\t"+bean.getModifiedDatetime());	
+			System.out.print("\t" + bean.getName());
+			System.out.print("\t" + bean.getAddress());
+			System.out.print("\t" + bean.getState());
+			System.out.print("\t" + bean.getCity());
+			System.out.print("\t" + bean.getPhoneNo());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 
 		}
 	}

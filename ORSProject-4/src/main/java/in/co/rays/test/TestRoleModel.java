@@ -62,8 +62,10 @@ public class TestRoleModel {
 
 		RoleBean bean = new RoleBean();
 		RoleModel model = new RoleModel();
+		
+		bean.setName("student");
 
-		List list = model.search(bean);
+		List list = model.search(bean, 0, 0);
 
 		Iterator it = list.iterator();
 

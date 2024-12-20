@@ -14,7 +14,7 @@ public class TestStudentModel {
 
 //		testAdd();
 //		testUpdate();
-		testDelete();
+//		testDelete();
 		testSearch();
 //		testfindByPK();
 //		testfindByEmail();
@@ -82,7 +82,9 @@ public class TestStudentModel {
 		
 		StudentModel model=new StudentModel();
 		
-		List list=model.search(bean);
+		bean.setFirstName("pooja");
+		
+		List list=model.search(bean,0,0);
 		
 		Iterator it = list.iterator();
 		

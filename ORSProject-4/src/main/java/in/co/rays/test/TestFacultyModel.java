@@ -14,7 +14,7 @@ public class TestFacultyModel {
 
 //		testAdd();
 //		testUpdate();
-		testDelete();
+//		testDelete();
 //		testFindByPK();
 		testSearch();
 	}
@@ -24,7 +24,9 @@ public class TestFacultyModel {
 		FacultyBean bean = new FacultyBean();
 		FacultyModel model = new FacultyModel();
 
-		List list = model.search(bean);
+		bean.setFirstName("Meena");
+
+		List list = model.search(bean, 0, 0);
 
 		Iterator it = list.iterator();
 
@@ -52,30 +54,30 @@ public class TestFacultyModel {
 	}
 
 	private static void testFindByPK() throws Exception {
-		
+
 		FacultyModel model = new FacultyModel();
-		
+
 		FacultyBean bean = model.findByPk(1);
-		
+
 		if (bean != null) {
-			
-		System.out.print(bean.getId());
-		System.out.print("\t" + bean.getFirstName());
-		System.out.print("\t" + bean.getLastName());
-		System.out.print("\t" + bean.getDob());
-		System.out.print("\t" + bean.getGender());
-		System.out.print("\t" + bean.getMobileNo());
-		System.out.print("\t" + bean.getEmail());
-		System.out.print("\t" + bean.getCollegeId());
-		System.out.print("\t" + bean.getCollegeName());
-		System.out.print("\t" + bean.getCourseId());
-		System.out.print("\t" + bean.getCourseName());
-		System.out.print("\t" + bean.getSubjectId());
-		System.out.print("\t" + bean.getSubjectName());
-		System.out.print("\t" + bean.getCreatedBy());
-		System.out.print("\t" + bean.getModifiedBy());
-		System.out.print("\t" + bean.getCreatedDatetime());
-		System.out.println("\t" + bean.getModifiedDatetime());
+
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getFirstName());
+			System.out.print("\t" + bean.getLastName());
+			System.out.print("\t" + bean.getDob());
+			System.out.print("\t" + bean.getGender());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getEmail());
+			System.out.print("\t" + bean.getCollegeId());
+			System.out.print("\t" + bean.getCollegeName());
+			System.out.print("\t" + bean.getCourseId());
+			System.out.print("\t" + bean.getCourseName());
+			System.out.print("\t" + bean.getSubjectId());
+			System.out.print("\t" + bean.getSubjectName());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 		} else {
 			System.out.println("id not found");
 		}
