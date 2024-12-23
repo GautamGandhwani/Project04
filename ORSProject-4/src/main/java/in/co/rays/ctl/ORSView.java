@@ -1,8 +1,9 @@
+
 package in.co.rays.ctl;
 
 public interface ORSView {
 
-	public String APP_CONTEXT = "/Project-04";
+	public String APP_CONTEXT = "/ORSProject-4";
 
 	public String PAGE_FOLDER = "/jsp";
 

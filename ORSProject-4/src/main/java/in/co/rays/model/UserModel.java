@@ -111,8 +111,7 @@ public class UserModel {
 		if (bean != null) {
 
 			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
-				sql.append(" and first_"
-						+ "name like '" + bean.getFirstName() + "'");
+				sql.append(" and first_" + "name like '" + bean.getFirstName() + "'");
 			}
 		}
 
@@ -153,5 +152,40 @@ public class UserModel {
 
 	public List list() throws Exception {
 		return search(null, 0, 0);
+	}
+
+	public UserBean authenticate(String login, String password) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ? and password = ?");
+
+		pstmt.setString(1, login);
+		pstmt.setString(2, password);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		UserBean bean = null;
+
+		while (rs.next()) {
+
+			bean = new UserBean();
+
+			bean.setId(rs.getLong(1));
+			bean.setFirstName(rs.getString(2));
+			bean.setLastName(rs.getString(3));
+			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
+			bean.setMobileNo(rs.getString(7));
+			bean.setRoleId(rs.getLong(8));
+			bean.setGender(rs.getString(9));
+			bean.setCreatedBy(rs.getString(10));
+			bean.setModifiedBy(rs.getString(11));
+			bean.setCreatedDatetime(rs.getTimestamp(12));
+			bean.setModifiedDatetime(rs.getTimestamp(13));
+		}
+		JDBCDataSource.closeConnection(conn);
+		return bean;
 	}
 }
