@@ -134,12 +134,17 @@ public class UserRegistrationCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		System.out.println("In DoGet");
+
 		ServletUtility.forward(getView(), request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		System.out.println("In DoPost");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 

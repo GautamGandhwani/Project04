@@ -13,9 +13,9 @@ public class TestRoleModel {
 	public static void main(String[] args) throws Exception {
 
 //		testAdd();
-//		testUpdate();
+testUpdate();
 //		testDelete();
-		testSearch();
+		//testSearch();
 //		testFindByPk();	
 	}
 
@@ -40,8 +40,8 @@ public class TestRoleModel {
 		RoleBean bean = new RoleBean();
 		RoleModel model = new RoleModel();
 
-		bean.setId(1);
-		bean.setName("Student");
+		bean.setId(2);
+		bean.setName("Uday");
 		bean.setDescription("Student");
 		bean.setCreatedBy("st@gmail.com");
 		bean.setModifiedBy("st@gmail.com");

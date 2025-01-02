@@ -59,19 +59,20 @@ public class RoleModel {
 		PreparedStatement pstmt = conn.prepareStatement(
 				"update st_role set name = ?, description = ?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ? where id = ?");
 
-		pstmt.setLong(7, bean.getId());
 		pstmt.setString(1, bean.getName());
 		pstmt.setString(2, bean.getDescription());
 		pstmt.setString(3, bean.getCreatedBy());
 		pstmt.setString(4, bean.getModifiedBy());
 		pstmt.setTimestamp(5, bean.getCreatedDatetime());
 		pstmt.setTimestamp(6, bean.getModifiedDatetime());
+		pstmt.setLong(7, bean.getId());
 
 		int i = pstmt.executeUpdate();
 
 		JDBCDataSource.closeConnection(conn);
 
-		System.out.println("Data Updated -> " + i);
+		System.out.println("data updated => " + i);
+
 	}
 
 	public void delete(long id) throws Exception {
@@ -90,6 +91,10 @@ public class RoleModel {
 
 	}
 
+	public List list() throws Exception {
+		return search(null, 0, 0);
+	}
+
 	public List search(RoleBean bean, int pageNo, int pageSize) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
@@ -100,6 +105,10 @@ public class RoleModel {
 
 			if (bean.getName() != null && bean.getName().length() > 0) {
 				sql.append(" and name like '" + bean.getName() + "'");
+			}
+
+			if (bean.getId() > 0) {
+				sql.append(" and id = " + bean.getId());
 			}
 		}
 
@@ -184,9 +193,4 @@ public class RoleModel {
 		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
-
-	public List list() throws Exception {
-		return search(null, 0, 0);
-	}
-
 }

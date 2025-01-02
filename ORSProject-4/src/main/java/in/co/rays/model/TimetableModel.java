@@ -27,6 +27,7 @@ public class TimetableModel {
 			pk = rs.getInt(1);
 			System.out.println("max id=" + pk);
 		}
+		JDBCDataSource.closeConnection(conn);
 		return pk + 1;
 
 	}

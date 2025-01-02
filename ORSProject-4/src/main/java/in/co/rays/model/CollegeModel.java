@@ -26,6 +26,7 @@ public class CollegeModel {
 			pk = rs.getInt(1);
 			System.out.println("max id=" + pk);
 		}
+		JDBCDataSource.closeConnection(conn);
 		return pk + 1;
 
 	}
@@ -132,6 +133,7 @@ public class CollegeModel {
 
 			list.add(bean);
 		}
+		JDBCDataSource.closeConnection(conn);
 		return list;
 	}
 
@@ -164,6 +166,7 @@ public class CollegeModel {
 			bean.setModifiedDatetime(rs.getTimestamp(10));
 
 		}
+		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
 

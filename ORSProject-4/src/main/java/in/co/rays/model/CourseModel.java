@@ -25,8 +25,8 @@ public class CourseModel {
 			pk = rs.getInt(1);
 			System.out.println("max id=" + pk);
 		}
+		JDBCDataSource.closeConnection(conn);
 		return pk + 1;
-
 	}
 
 	public void add(CourseBean bean) throws Exception {
@@ -174,6 +174,7 @@ public class CourseModel {
 			bean.setCreatedDatetime(rs.getTimestamp(8));
 
 		}
+		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
 
@@ -202,6 +203,7 @@ public class CourseModel {
 			bean.setCreatedDatetime(rs.getTimestamp(8));
 
 		}
+		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
 

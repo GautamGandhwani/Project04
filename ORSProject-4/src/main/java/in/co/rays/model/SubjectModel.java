@@ -114,6 +114,7 @@ public class SubjectModel {
 
 		int i = pstmt.executeUpdate();
 
+		JDBCDataSource.closeConnection(conn);
 		System.out.println("Data Delete=" + i);
 	}
 

@@ -3,13 +3,9 @@ package in.co.rays.bean;
 public class CollegeBean extends BaseBean {
 
 	private String name;
-
 	private String address;
-
 	private String state;
-
 	private String city;
-
 	private String phoneNo;
 
 	public String getName() {
