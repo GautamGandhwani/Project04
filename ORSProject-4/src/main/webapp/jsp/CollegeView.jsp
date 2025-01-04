@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.ctl.CollegeListCtl"%>
 <%@page import="in.co.rays.util.DataUtility"%>
 <%@page import="in.co.rays.util.ServletUtility"%>
 <%@page import="in.co.rays.ctl.CollegeCtl"%>
@@ -12,12 +13,20 @@
 <body>
 	<%@include file="Header.jsp"%>
 	<div align="center">
-		<form action="<%=ORSView.COLLEGE_CTL %>" method="post">
+		<form action="<%=ORSView.COLLEGE_CTL%>" method="post">
 
 			<jsp:useBean id="bean" class="in.co.rays.bean.CollegeBean"
 				scope="request" />
 
-			<h1>Add College</h1>
+			<h1>
+				<%
+					if (bean != null && bean.getId() > 0) {
+				%>Update College<%
+					} else {
+				%>Add College<%
+					}
+				%>
+			</h1>
 
 			<h3>
 				<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
@@ -58,7 +67,7 @@
 
 				<tr>
 					<th align="left">State<span style="color: red">*</span></th>
-					<td><input type="text" name="stste"
+					<td><input type="text" name="state"
 						value="<%=DataUtility.getStringData(bean.getState())%>"
 						placeholder="Enter State"></td>
 
@@ -83,12 +92,24 @@
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("phoneno", request)%></font></td>
 				</tr>
 
-				<tr>
-					<th></th>
+				<tr align="center">
+					<%
+						if (bean != null && bean.getId() > 0) {
+					%>
+					<td><input type="submit" name="operation"
+						value="<%=CollegeCtl.OP_UPDATE%>">&nbsp; <input
+						type="submit" name="operation"
+						value="<%=CollegeListCtl.OP_CANCEL%>"></td>
+					<%
+						} else {
+					%>
 					<td><input type="submit" name="operation"
 						value="<%=CollegeCtl.OP_SAVE%>">&nbsp; <input
 						type="submit" name="operation" value="<%=CollegeCtl.OP_RESET%>">
 					</td>
+					<%
+						}
+					%>
 				</tr>
 			</table>
 

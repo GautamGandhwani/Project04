@@ -16,7 +16,7 @@ import in.co.rays.util.DataValidator;
 import in.co.rays.util.PropertyReader;
 import in.co.rays.util.ServletUtility;
 
-@WebServlet("/UserRegistrationCtl")
+@WebServlet(name = "UserRegistrationCtl", urlPatterns = { "/ctl/UserRegistrationCtl" })
 public class UserRegistrationCtl extends BaseCtl {
 
 	public static final String OP_SIGN_UP = "Sign Up";

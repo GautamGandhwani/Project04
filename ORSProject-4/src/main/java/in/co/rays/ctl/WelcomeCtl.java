@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import in.co.rays.util.ServletUtility;
 
-@WebServlet("/WelcomeCtl")
+@WebServlet(name = "WelcomeCtl", urlPatterns = { "/ctl/WelcomeCtl" })
 public class WelcomeCtl extends BaseCtl {
 
 	@Override

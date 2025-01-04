@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.ctl.CollegeListCtl"%>
 <%@page import="in.co.rays.ctl.CollegeCtl"%>
 <%@page import="in.co.rays.bean.CollegeBean"%>
 <%@page import="java.util.Iterator"%>
@@ -19,13 +20,25 @@
 				scope="request"></jsp:useBean>
 			<%
 				List list = ServletUtility.getList(request);
+				Iterator it = list.iterator();
 			%>
 
 			<h1>College List</h1>
 
+			<table>
+				<tr>
+					<th>Name :</th>
+					<td><input type="text" name="name" placeholder="Enter Name"></td>
+
+					<td><input type="submit" name="operation"
+						value="<%=CollegeListCtl.OP_SAVE%>"><input type="submit"
+						name="operation" value="<%=CollegeListCtl.OP_RESET%>"></td>
+				</tr>
+			</table>
+
 			<table border="1px" width="100%">
 				<tr>
-					<th><input type="checkbox"></th>
+					<th><input type="checkbox" id="selectall"></th>
 					<th>S.No.</th>
 					<th>Name</th>
 					<th>Address</th>
@@ -35,24 +48,38 @@
 					<th>Edit</th>
 				</tr>
 				<%
-					Iterator it = list.iterator();
 					while (it.hasNext()) {
 						bean = (CollegeBean) it.next();
 				%>
 				<tr align="center">
-					<td><input type="checkbox" name="operation"
-						value="<%=CollegeCtl.OP_DELETE%>"></td>
+					<td><input type="checkbox" name="ids"
+						value="<%=bean.getId()%>"></td>
 					<td><%=bean.getId()%></td>
 					<td><%=bean.getName()%></td>
 					<td><%=bean.getAddress()%></td>
 					<td><%=bean.getState()%></td>
 					<td><%=bean.getCity()%></td>
 					<td><%=bean.getPhoneNo()%></td>
-					<td>Edit</td>
+					<td><a href="<%=ORSView.COLLEGE_CTL%>?id=<%=bean.getId()%>">Edit</a></td>
 				</tr>
 				<%
 					}
 				%>
+			</table>
+			<table width="100%">
+				<tr>
+					<td align="left"><input type="submit" name="operation"
+						value="<%=CollegeCtl.OP_PREVIOUS%>"></td>
+
+					<td><input type="submit" name="operation"
+						value="<%=CollegeCtl.OP_NEW%>"></td>
+
+					<td><input type="submit" name="operation"
+						value="<%=CollegeCtl.OP_DELETE%>"></td>
+
+					<td align="right"><input type="submit" name="operation"
+						value="<%=CollegeCtl.OP_NEXT%>"></td>
+				</tr>
 			</table>
 		</form>
 	</div>

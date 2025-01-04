@@ -1,8 +1,8 @@
-<%@page import="in.co.rays.ctl.RoleListCtl"%>
-<%@page import="java.util.List"%>
-<%@page import="in.co.rays.util.DataUtility"%>
 <%@page import="in.co.rays.util.ServletUtility"%>
-<%@page import="in.co.rays.ctl.RoleCtl"%>
+<%@page import="java.util.List"%>
+<%@page import="in.co.rays.util.HTMLUtility"%>
+<%@page import="in.co.rays.ctl.SubjectCtl"%>
+<%@page import="in.co.rays.util.DataUtility"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -14,21 +14,17 @@
 <body>
 	<%@include file="Header.jsp"%>
 	<div align="center">
-		<form action="<%=ORSView.ROLE_CTL%>" method="post">
+		<form action="<%=ORSView.SUBJECT_CTL%>" method="post">
 
-			<jsp:useBean id="bean" class="in.co.rays.bean.RoleBean"
-				scope="request" />
+			<jsp:useBean id="bean" class="in.co.rays.bean.SubjectBean"
+				scope="request"></jsp:useBean>
 
-			<h1 align="center">
-				<font color="navy"> <%
- 	if (bean != null && bean.getId() > 0) {
- %> Update Role <%
- 	} else {
- %> Add Role <%
- 	}
- %>
-				</font>
-			</h1>
+			<%
+				List courseList = (List) request.getAttribute("courseList");
+			%>
+
+			<h1>Add Subject</h1>
+
 			<h3>
 				<font color="green"><%=ServletUtility.getSuccessMessage(request)%></font>
 			</h3>
@@ -47,41 +43,28 @@
 				value="<%=DataUtility.getTimestamp(bean.getModifiedDatetime())%>" />
 
 			<table>
-				<tr align="center">
+				<tr>
 					<th align="left">Name<span style="color: red">*</span></th>
 					<td><input type="text" name="name"
 						value="<%=DataUtility.getStringData(bean.getName())%>"
 						placeholder="Enter Name"></td>
-
-					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("name", request)%></font></td>
 				</tr>
-				<tr align="center">
+
+				<tr>
+					<th align="left">Course Name<span style="color: red">*</span></th>
+			<td><%=HTMLUtility.getList("courseid", DataUtility.getStringData(bean.getCourseId()), courseList) %></td>
+				</tr>
+
+				<tr>
 					<th align="left">Description<span style="color: red">*</span></th>
 					<td><input type="text" name="description"
-						placeholder="Enter Description"
-						value="<%=DataUtility.getStringData(bean.getDescription())%>"></td>
+						value="<%=DataUtility.getStringData(bean.getDescription())%>"
+						placeholder="Enter Description"></td>
+				</tr>
 
-					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("description", request)%></font></td>
-				</tr>
-				<tr align="center">
-					<%
-						if (bean != null && bean.getId() > 0) {
-					%>
+				<tr>
+					<th></th>
 					<td><input type="submit" name="operation"
-						value="<%=RoleCtl.OP_UPDATE%>"> <input type="submit"
-						name="operation" value="<%=RoleListCtl.OP_CANCEL%>"></td>
-					<%
-						} else {
-					%>
-					<td><input type="submit" name="operation"
-						value="<%=RoleCtl.OP_SAVE%>"> <input type="submit"
-						name="operation" value="<%=RoleCtl.OP_RESET%>"></td>
-					<%
-						}
-					%>
+						value="<%=SubjectCtl.OP_SAVE%>">&nbsp;<input type="submit"
+						name="operation" value="<%=SubjectCtl.OP_RESET%>"></td>
 				</tr>
-			</table>
-		</form>
-	</div>
-</body>
-</html>

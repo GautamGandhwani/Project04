@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.model.RoleModel"%>
 <%@page import="in.co.rays.ctl.RoleCtl"%>
 <%@page import="in.co.rays.ctl.UserListCtl"%>
 <%@page import="in.co.rays.util.DataUtility"%>
@@ -28,10 +29,17 @@
 			<h1>Role List</h1>
 
 			<%
+				int nextPageSize = DataUtility.getInt(request.getAttribute("nextListSize").toString());
+				int pageNo = ServletUtility.getPageNo(request);
+				int pageSize = ServletUtility.getPageSize(request);
+				int index = ((pageNo - 1) * pageSize) + 1;
 				List roleList = (List) request.getAttribute("roleList");
 				List list = ServletUtility.getList(request);
+				Iterator it = list.iterator();
+				
 			%>
-
+			<input type="hidden" name="pageNo" value="<%=pageNo%>"> <input
+				type="hidden" name="pageSize" value="<%=pageSize%>">
 			<table>
 				<tr>
 					<th>Name :</th>
@@ -44,9 +52,8 @@
 					<td><input type="submit" name="operation"
 						value="<%=RoleListCtl.OP_RESET%>"></td>
 				</tr>
-				<br>
 			</table>
-
+			<br>
 			<table border="1px" width="100%">
 				<tr>
 					<th><input type="checkbox" id="selectall"></th>
@@ -56,14 +63,15 @@
 					<th>Edit</th>
 				</tr>
 				<%
-					Iterator it = list.iterator();
 					while (it.hasNext()) {
-						bean = (RoleBean) it.next();
+							bean = (RoleBean) it.next();
+							RoleModel model = new RoleModel();
+							RoleBean roleBean = model.findByPk(bean.getId());
 				%>
 				<tr align="center">
 					<td><input type="checkbox" name="ids"
 						value="<%=bean.getId()%>"></td>
-					<td><%=bean.getId()%></td>
+					<td><%=index++%></td>
 					<td><%=bean.getName()%></td>
 					<td><%=bean.getDescription()%></td>
 					<td><a href="<%=ORSView.ROLE_CTL%>?id=<%=bean.getId()%>">Edit</a></td>
@@ -73,15 +81,26 @@
 					}
 				%>
 			</table>
-			<table>
+			<br>
+			<table width="100%">
 				<tr>
+					<td align="left"><input type="submit" name="operation"
+						value="<%=RoleListCtl.OP_PREVIOUS%>"
+						<%=(pageNo == 1) ? "disabled" : ""%>></td>
+
 					<td><input type="submit" name="operation"
 						value="<%=RoleListCtl.OP_NEW%>"></td>
 
 					<td><input type="submit" name="operation"
 						value="<%=RoleListCtl.OP_DELETE%>"></td>
+
+					<td align="right"><input type="submit" name="operation"
+						value="<%=RoleListCtl.OP_NEXT%>"
+						<%=(nextPageSize != 0) ? "" : "disabled"%>></td>
 				</tr>
 			</table>
+		
+
 		</form>
 	</div>
 </body>

@@ -21,7 +21,7 @@
 	%>
 	<form action="<%=ORSView.USER_CTL%>" method="post">
 		<jsp:useBean id="bean" class="in.co.rays.bean.UserBean"
-			scope="request" />
+			scope="request"></jsp:useBean>
 
 		<div align="center">
 			<h1>
@@ -90,7 +90,7 @@
 				</tr>
 				<tr>
 					<th align="left">DOB<span style="color: red">*</span></th>
-					<td><input style="width: 98%" type="date" id="udate"
+					<td><input style="width: 98%" type="text" id="udate"
 						name="dob" placeholder="Select Date of Birth"
 						value="<%=DataUtility.getDateString(bean.getDob())%>" /></td>
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("dob", request)%></font></td>
@@ -122,14 +122,16 @@
 					<%
 						if (bean != null && bean.getId() > 0) {
 					%>
+					<th></th>
 					<td align="left" colspan="2"><input type="submit"
 						name="operation" value="<%=UserCtl.OP_UPDATE%>"> <input
 						type="submit" name="operation" value="<%=UserCtl.OP_CANCEL%>">
 						<%
 							} else {
 						%>
+					<th></th>
 					<td align="left" colspan="2"><input type="submit"
-						name="operation" value="<%=UserCtl.OP_SAVE%>"> <input
+						name="operation" value="<%=UserCtl.OP_SAVE%>">&nbsp; <input
 						type="submit" name="operation" value="<%=UserCtl.OP_RESET%>">
 					</td>
 					<%
