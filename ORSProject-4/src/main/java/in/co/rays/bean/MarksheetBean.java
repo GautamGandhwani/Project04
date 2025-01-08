@@ -3,15 +3,10 @@ package in.co.rays.bean;
 public class MarksheetBean extends BaseBean {
 
 	private String rollNo;
-
 	private long studentId;
-
 	private String name;
-
 	private int physics;
-
 	private int chemistry;
-
 	private int maths;
 
 	public String getRollNo() {

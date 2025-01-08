@@ -48,11 +48,16 @@
 					<td><input type="text" name="name"
 						value="<%=DataUtility.getStringData(bean.getName())%>"
 						placeholder="Enter Name"></td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("name", request)%></font></td>
 				</tr>
 
 				<tr>
 					<th align="left">Course Name<span style="color: red">*</span></th>
-			<td><%=HTMLUtility.getList("courseid", DataUtility.getStringData(bean.getCourseId()), courseList) %></td>
+					<td><%=HTMLUtility.getList("courseId", DataUtility.getStringData(bean.getCourseId()), courseList)%></td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("courseId", request)%></font></td>
+
 				</tr>
 
 				<tr>
@@ -60,6 +65,8 @@
 					<td><input type="text" name="description"
 						value="<%=DataUtility.getStringData(bean.getDescription())%>"
 						placeholder="Enter Description"></td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("description", request)%></font></td>
 				</tr>
 
 				<tr>
@@ -68,3 +75,8 @@
 						value="<%=SubjectCtl.OP_SAVE%>">&nbsp;<input type="submit"
 						name="operation" value="<%=SubjectCtl.OP_RESET%>"></td>
 				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

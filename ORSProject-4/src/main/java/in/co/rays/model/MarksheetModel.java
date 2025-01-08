@@ -32,10 +32,9 @@ public class MarksheetModel {
 	}
 
 	public void add(MarksheetBean bean) throws Exception {
-
 		StudentModel model = new StudentModel();
 
-		StudentBean studentbean = model.findByPK(bean.getId());
+		StudentBean studentbean = model.findByPK(bean.getStudentId());
 
 		bean.setName(studentbean.getFirstName());
 
@@ -66,7 +65,7 @@ public class MarksheetModel {
 
 		JDBCDataSource.closeConnection(conn);
 
-		System.out.println("Data Add=" + i);
+		System.out.println("Data Add= " + i);
 	}
 
 	public void update(MarksheetBean bean) throws Exception {

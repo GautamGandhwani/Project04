@@ -118,7 +118,7 @@ public class CourseModel {
 
 		if (pageSize > 0) {
 			pageNo = (pageNo - 1) * pageSize;
-			sql.append("limit " + pageNo + "," + pageSize);
+			sql.append(" limit " + pageNo + "," + pageSize);
 		}
 		System.out.println("SQl = " + sql.toString());
 		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
@@ -130,7 +130,6 @@ public class CourseModel {
 		bean = null;
 
 		while (rs.next()) {
-
 			bean = new CourseBean();
 
 			bean.setId(rs.getLong(1));

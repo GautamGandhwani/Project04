@@ -14,6 +14,8 @@ import in.co.rays.exception.DublicaterRcordException;
 import in.co.rays.model.CourseModel;
 import in.co.rays.model.SubjectModel;
 import in.co.rays.util.DataUtility;
+import in.co.rays.util.DataValidator;
+import in.co.rays.util.PropertyReader;
 import in.co.rays.util.ServletUtility;
 
 @WebServlet(name = "SubjectCtl", urlPatterns = { "/ctl/SubjectCtl" })
@@ -21,7 +23,29 @@ public class SubjectCtl extends BaseCtl {
 
 	@Override
 	protected boolean validate(HttpServletRequest request) {
-		return true;
+		boolean pass = true;
+
+		if (DataValidator.isNull(request.getParameter("name"))) {
+			request.setAttribute("name", PropertyReader.getValue("error.require", "name"));
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("name"))) {
+			request.setAttribute("name", "Invalid name");
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("courseId"))) {
+			request.setAttribute("courseId", PropertyReader.getValue("error.require", "Course Name"));
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("description"))) {
+			request.setAttribute("description", PropertyReader.getValue("error.require", "description"));
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("description"))) {
+			request.setAttribute("description", "Invalid description");
+			pass = false;
+		}
+		return pass;
 	}
 
 	@Override
@@ -30,7 +54,7 @@ public class SubjectCtl extends BaseCtl {
 
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		bean.setName(DataUtility.getString(request.getParameter("name")));
-		bean.setCourseId(DataUtility.getLong(request.getParameter("courseid")));
+		bean.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
 		bean.setDescription(DataUtility.getString(request.getParameter("description")));
 		populateDTO(bean, request);
 		return bean;

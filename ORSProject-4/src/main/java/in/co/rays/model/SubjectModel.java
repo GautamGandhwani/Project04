@@ -42,7 +42,7 @@ public class SubjectModel {
 
 		CourseModel model = new CourseModel();
 
-		CourseBean coursebean = model.findByPk(bean.getId());
+		CourseBean coursebean = model.findByPk(bean.getCourseId());
 
 		bean.setCourseName(coursebean.getName());
 
