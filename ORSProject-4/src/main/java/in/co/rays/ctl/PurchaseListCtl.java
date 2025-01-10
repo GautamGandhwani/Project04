@@ -20,7 +20,12 @@ public class PurchaseListCtl extends BaseCtl {
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 		PurchaseBean bean = new PurchaseBean();
-
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
+		bean.setQuantity(DataUtility.getInt(request.getParameter("quantity")));
+		bean.setPrice((double) DataUtility.getInt(request.getParameter("price")));
+		bean.setPurchaseDate(DataUtility.getDate(request.getParameter("purchaseDate")));
+		bean.setOrderType(DataUtility.getString(request.getParameter("orderType")));
+		populateDTO(bean, request);
 		return bean;
 	}
 
@@ -71,5 +76,4 @@ public class PurchaseListCtl extends BaseCtl {
 	protected String getView() {
 		return ORSView.PURCHASE_LIST_VIEW;
 	}
-
 }

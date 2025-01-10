@@ -1,6 +1,7 @@
 package in.co.rays.ctl;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,8 +36,8 @@ public class CourseListCtl extends BaseCtl {
 		CourseModel model = new CourseModel();
 
 		try {
-			model.search(bean, 0, 0);
-
+			List list = model.search(bean, 0, 0);
+			ServletUtility.setList(list, request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

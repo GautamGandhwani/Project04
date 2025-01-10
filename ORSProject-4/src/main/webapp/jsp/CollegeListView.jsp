@@ -1,3 +1,5 @@
+<%@page import="in.co.rays.util.PropertyReader"%>
+<%@page import="in.co.rays.util.DataUtility"%>
 <%@page import="in.co.rays.ctl.CollegeListCtl"%>
 <%@page import="in.co.rays.ctl.CollegeCtl"%>
 <%@page import="in.co.rays.bean.CollegeBean"%>
@@ -19,10 +21,15 @@
 			<jsp:useBean id="bean" class="in.co.rays.bean.CollegeBean"
 				scope="request"></jsp:useBean>
 			<%
+				int nextPageSize = DataUtility.getInt(PropertyReader.getValue("page.size").toString());
+				int pageNo = ServletUtility.getPageNo(request);
+				int pageSize = ServletUtility.getPageSize(request);
+				int index = ((pageNo - 1) * pageSize) + 1;
 				List list = ServletUtility.getList(request);
 				Iterator it = list.iterator();
 			%>
-
+			<input type="hidden" name="pageNo" value="<%=pageNo%>"> <input
+				type="hidden" name="pageSize" value="<%=pageSize%>">
 			<h1>College List</h1>
 
 			<table>
@@ -31,7 +38,7 @@
 					<td><input type="text" name="name" placeholder="Enter Name"></td>
 
 					<td><input type="submit" name="operation"
-						value="<%=CollegeListCtl.OP_SAVE%>"><input type="submit"
+						value="<%=CollegeListCtl.OP_SEARCH%>"><input type="submit"
 						name="operation" value="<%=CollegeListCtl.OP_RESET%>"></td>
 				</tr>
 			</table>
@@ -69,7 +76,8 @@
 			<table width="100%">
 				<tr>
 					<td align="left"><input type="submit" name="operation"
-						value="<%=CollegeCtl.OP_PREVIOUS%>"></td>
+						value="<%=CollegeCtl.OP_PREVIOUS%>"
+						<%=(pageNo == 1) ? "disabled" : ""%>></td>
 
 					<td><input type="submit" name="operation"
 						value="<%=CollegeCtl.OP_NEW%>"></td>
@@ -78,7 +86,8 @@
 						value="<%=CollegeCtl.OP_DELETE%>"></td>
 
 					<td align="right"><input type="submit" name="operation"
-						value="<%=CollegeCtl.OP_NEXT%>"></td>
+						value="<%=CollegeCtl.OP_NEXT%>"
+						<%=(nextPageSize != 0) ? "" : "disabled"%>></td>
 				</tr>
 			</table>
 		</form>

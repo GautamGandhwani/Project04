@@ -100,19 +100,21 @@ public class LoginCtl extends BaseCtl {
 					RoleBean roleBean = roleModel.findByPk(bean.getRoleId());
 					session.setAttribute("role", roleBean.getName());
 					ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+					return;
 				} else {
 
 					bean = (UserBean) populateBean(request);
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setErrorMessage("Invalid Login ID or Password.", request);
-					ServletUtility.forward(getView(), request, response);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.USER_REGISTRATION_CTL, request, response);
+			return;
 		}
+		ServletUtility.forward(getView(), request, response);
 	}
 
 	@Override

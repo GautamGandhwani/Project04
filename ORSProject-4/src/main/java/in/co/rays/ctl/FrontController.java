@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import in.co.rays.util.ServletUtility;
 
-
 @WebFilter("/ctl/*")
 public class FrontController implements Filter {
 
@@ -33,9 +32,8 @@ public class FrontController implements Filter {
 		HttpSession session = request.getSession(true);
 
 		if (session.getAttribute("user") == null) {
-			ServletUtility.setErrorMessage("OOPS!! your session has been expired, please relogin", request);
-			String queryParam = "?" + BaseCtl.MSG_ERROR + "=OOPS!! your session has been expired, please relogin";
-			ServletUtility.redirect(ORSView.LOGIN_CTL + queryParam, request, response);
+			req.setAttribute("error", "Your session has been expired. Please Login again....");
+			ServletUtility.redirect(ORSView.LOGIN_CTL, request, response);
 		} else {
 			chain.doFilter(req, resp);
 		}

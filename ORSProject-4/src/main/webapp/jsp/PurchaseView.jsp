@@ -17,10 +17,17 @@
 		<form action="<%=ORSView.PURCHASE_CTL%>" method="post">
 			<jsp:useBean id="bean" class="in.co.rays.bean.PurchaseBean"
 				scope="request"></jsp:useBean>
-
-
+			<%
+				if (bean != null && bean.getId() > 0) {
+			%>
+			<h1>Update Purchase</h1>
+			<%
+				} else {
+			%>
 			<h1>Add Purchase</h1>
-
+			<%
+				}
+			%>
 			<h3>
 				<font color="green"><%=ServletUtility.getSuccessMessage(request)%></font>
 			</h3>
@@ -60,6 +67,7 @@
 				<tr>
 					<th align="left">Purchase Date<span style="color: red">*</span></th>
 					<td><input type="text" name="purchaseDate" id="pdate"
+						value="<%=DataUtility.getDateString(bean.getPurchaseDate())%>"
 						placeholder="Enter Purchase Date"></td>
 
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("purchaseDate", request)%></font></td>
@@ -70,19 +78,32 @@
 					<td>
 						<%
 							HashMap<String, String> orderTypeMap = new HashMap<>();
-							orderTypeMap.put("mARKET", "mARKET");
-							orderTypeMap.put("DELL", "DELL");
-						%><%=HTMLUtility.getList("orderType", bean.getOrderType(), orderTypeMap)%>
+							orderTypeMap.put("Market", "Market");
+							orderTypeMap.put("Limit", "Limit");
+						%><%=HTMLUtility.getList("orderType", bean.getOrderType(), orderTypeMap)%></td>
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("orderType", request)%></font></td>
 
 
 				</tr>
 
 				<tr>
+					<%
+						if (bean != null && bean.getId() > 0) {
+					%>
+					<th></th>
+					<td><input type="submit" name="operation"
+						value="<%=PurchaseCtl.OP_UPDATE%>">&nbsp;<input
+						type="submit" name="operation" value="<%=PurchaseCtl.OP_CANCEL%>"></td>
+					<%
+						} else {
+					%>
 					<th></th>
 					<td><input type="submit" name="operation"
 						value="<%=PurchaseCtl.OP_SAVE%>">&nbsp;<input
 						type="submit" name="operation" value="<%=PurchaseCtl.OP_RESET%>"></td>
+					<%
+						}
+					%>
 				</tr>
 			</table>
 		</form>

@@ -49,8 +49,7 @@
 					<td><%=bean.getPrice()%></td>
 					<td><%=bean.getPurchaseDate()%></td>
 					<td><%=bean.getOrderType()%></td>
-					<td><a
-						href="<%=ORSView.PURCHASE_LIST_CTL%>?id=<%=bean.getId()%>">Edit</a>
+					<td><a href="<%=ORSView.PURCHASE_CTL%>?id=<%=bean.getId()%>">Edit</a>
 				</tr>
 				<%
 					}

@@ -64,15 +64,15 @@ public class PurchaseModel {
 		PreparedStatement pstmt = conn.prepareStatement(
 				"update st_purchase set quantity = ?, price = ?, purchase_date=?, order_type=?, created_by = ?, modified_by = ?, created_datetime = ?, modified_datetime = ? where id = ?");
 
-		pstmt.setInt(2, bean.getQuantity());
-		pstmt.setDouble(3, bean.getPrice());
-		pstmt.setDate(4, new Date(bean.getPurchaseDate().getTime()));
-		pstmt.setString(5, bean.getOrderType());
-		pstmt.setString(3, bean.getCreatedBy());
-		pstmt.setString(4, bean.getModifiedBy());
-		pstmt.setTimestamp(5, bean.getCreatedDatetime());
-		pstmt.setTimestamp(6, bean.getModifiedDatetime());
-		pstmt.setLong(7, bean.getId());
+		pstmt.setInt(1, bean.getQuantity());
+		pstmt.setDouble(2, bean.getPrice());
+		pstmt.setDate(3, new Date(bean.getPurchaseDate().getTime()));
+		pstmt.setString(4, bean.getOrderType());
+		pstmt.setString(5, bean.getCreatedBy());
+		pstmt.setString(6, bean.getModifiedBy());
+		pstmt.setTimestamp(7, bean.getCreatedDatetime());
+		pstmt.setTimestamp(8, bean.getModifiedDatetime());
+		pstmt.setLong(9, bean.getId());
 
 		int i = pstmt.executeUpdate();
 
